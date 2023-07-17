@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Hello</h1>
+    <h1>Orders</h1>
+    {% for order in orders %}
+        <h2>Order ID: {{ order.id }}</h2>
+        <p>Placed At: {{ order.placed_at }}</p>
+
+        <h3>Order Items:</h3>
+        <ul>
+            {% for item in order.orderitem_set.all %}
+                <li>
+                    <p>Order Item ID: {{ item.id }}</p>
+                    <p>Quantity: {{ item.quantity }}</p>
+                    <p>Unit Price: {{ item.unit_price }}</p>
+                    <p>Product: {{ item.product.title }}</p>
+                    
+                </li>
+            {% endfor %}
+        </ul>
+    {% endfor %}
+</body>
+</html>
