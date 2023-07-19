@@ -17,7 +17,7 @@ from django.db import transaction
 #import send_mail
 from django.core.mail import send_mail,mail_admins,BadHeaderError
 from templated_mail.mail import BaseEmailMessage
-
+from .tasks import print_numbers ,print_task
 
 def say_hello(request):
    
@@ -96,20 +96,27 @@ def say_hello(request):
 
 
 def send_email(request):
-    try:
-        #send_mail(subject='Subject here', message='Here is the message.',from_email= 'info@moshbuy.com',recipient_list=['arman.cool4080@gmail.com'])
-       # send_mail('Subject here', 'Here is the message.','arman.cool4080@gmail.com',['arman.kanpur4080@gmail.com'])
+    # try:
+    #     #send_mail(subject='Subject here', message='Here is the message.',from_email= 'info@moshbuy.com',recipient_list=['arman.cool4080@gmail.com'])
+    #    # send_mail('Subject here', 'Here is the message.','arman.cool4080@gmail.com',['arman.kanpur4080@gmail.com'])
 
-      message = BaseEmailMessage(
-        template_name='emails/index.html',
-        context={
-            'name': 'Armaan',
-        },
-      )
-      message.attach_file('playground/static/Armaan photo.jpg')
-      message.send(['arman.kanpur4080@gmail.com'])
+    #   message = BaseEmailMessage(
+    #     template_name='emails/index.html',
+    #     context={
+    #         'name': 'Armaan',
+    #     },
+    #   )
+    #   message.attach_file('playground/static/Armaan photo.jpg')
+    #   message.send(['arman.kanpur4080@gmail.com'])
       
 
-    except BadHeaderError:
-        return HttpResponse('Invalid header found.')
-    return HttpResponse('Email sent successfully')
+    # except BadHeaderError:
+    #     return HttpResponse('Invalid header found.')
+    # return HttpResponse('Email sent successfully')
+    
+    # print_task.send(5)
+    print_numbers.send(3)
+
+    
+
+    return  HttpResponse('Email sent successfully')

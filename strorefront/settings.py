@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'core',
-    'djoser'
+    'djoser',
+    'django_dramatiq',
 ]
 
 MIDDLEWARE = [
@@ -189,4 +190,17 @@ EMAIL_HOST_PASSWORD = ''
 EMAIL_PORT = 2525
 DEFAULT_FROM_EMAIL = 'admin@localhost'
 
-CELERY_BROKER_URL = 'redis://localhost:6379/1'
+DRAMATIQ_BROKER = {
+    "BROKER": "dramatiq.brokers.redis.RedisBroker",
+    "OPTIONS": {
+        "url": "redis://localhost:6379",
+    },
+    "MIDDLEWARE": [
+        "dramatiq.middleware.AgeLimit",
+        "dramatiq.middleware.TimeLimit",
+        "dramatiq.middleware.Callbacks",
+        "dramatiq.middleware.Retries",
+        "django_dramatiq.middleware.AdminMiddleware",
+        "django_dramatiq.middleware.DbConnectionsMiddleware",
+    ]
+}

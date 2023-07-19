@@ -15,8 +15,13 @@ django-cors-headers = "*"
 django-templated-mail = "*"
 redis = "*"
 celery = "*"
+rq = "*"
+dramatiq = {extras = ["redis", "watch"], version = "*"}
+django-dramatiq = "*"
 
 [dev-packages]
+pytest = "*"
+pytest-django = "*"
 
 [requires]
 python_version = "3.11"
