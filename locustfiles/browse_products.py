@@ -1,0 +1,38 @@
+from locust import HttpUser, TaskSet, task ,between
+from random import randint
+
+
+class WebsiteUser :
+    #`wait_time` between the execution of tasks
+    #between(5, 15) means between 5 and 15 seconds
+    wait_time = between(5, 15)
+
+
+    #`task` decorator to make it a task and value in brackets is the weight of the task
+    @task(3)
+    def view_collections(self):
+        self.client.get("/store/collections/",name = '/store/collections/')
+
+    @task(5)
+    def view_products(self) :
+        collection_id = randint(1, 50)
+        self.client.get(f"/store/products/?collection_id={collection_id}/" , name = "/store/products/")
+
+    @task(7)
+    def view_product_detail(self) :
+        product_id = randint(1, 1000)
+        self.client.get(f"/store/products/{product_id}/" , name = '/store/products/:id/')
+
+    @task(3)
+    def add_product_to_cart(self):
+        product_id = randint(1, 1000)
+        self.client.post(f"/store/carts/{self.cart_id}/items/" ,
+                name = '/store/carts/:id/items/',
+                json = {'product_id': product_id, 'quantity': 1}
+        )
+
+    # lifecycle events
+    # it is called when a locust user starts before any task is scheduled
+    def on_start(self):
+        response = self.client.post("/store/carts/", name = '/store/carts/')
+        self.cart_id = response.json()['id']

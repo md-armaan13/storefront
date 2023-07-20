@@ -14,14 +14,16 @@ pillow = "*"
 django-cors-headers = "*"
 django-templated-mail = "*"
 redis = "*"
-celery = "*"
 rq = "*"
 dramatiq = {extras = ["redis", "watch"], version = "*"}
 django-dramatiq = "*"
+model-bakery = "*"
 
 [dev-packages]
 pytest = "*"
 pytest-django = "*"
+pytest-watch = "*"
+locust = "*"
 
 [requires]
 python_version = "3.11"

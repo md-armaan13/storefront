@@ -59,7 +59,7 @@ class ProductViewSet(ModelViewSet):
 #class based views
 class ProductList(ListCreateAPIView):
 
-    queryset = Product.objects.select_related('collection').prefetch_related('collection__product_set','productimage_set').all().order_by('-last_update')
+  #  queryset = Product.objects.select_related('collection').prefetch_related('collection__product_set','productimage_set').all().order_by('-last_update')
     serializer_class = ProductSerializer
     filter_backends = [DjangoFilterBackend,SearchFilter,OrderingFilter]
     # filterset_fields = ['collection_id']
@@ -76,13 +76,13 @@ class ProductList(ListCreateAPIView):
 
 
     #CUSTOM FILTERING
-    # def get_queryset(self):
-    #     queryset =Product.objects.select_related('collection').prefetch_related('collection__product_set').all().order_by('-last_update')
-    #     collection_id = self.request.query_params.get('collection_id')
+    def get_queryset(self):
+        queryset =Product.objects.select_related('collection').prefetch_related('collection__product_set','productimage_set').all().order_by('-last_update')
+        collection_id = self.request.query_params.get('collection_id')
 
-    #     if collection_id is not None:
-    #         queryset = queryset.filter(collection_id=collection_id)
-    #     return queryset
+        if collection_id is not None:
+            queryset = queryset.filter(collection_id=collection_id)
+        return queryset
 
 
 #   OTHER METHOD TO DO THE SAME THING
@@ -239,7 +239,7 @@ class CartItemDetail(RetrieveUpdateDestroyAPIView):
 class CustomerList(CreateModelMixin,GenericAPIView):
     queryset = Customer.objects.all() 
     serializer_class = CustomerSerializer
-    permission_classes = []
+    permission_classes = [IsAdminUser]
     
    
    
@@ -254,7 +254,7 @@ class CustomerList(CreateModelMixin,GenericAPIView):
 class CustomerDetail(RetrieveModelMixin, GenericAPIView, UpdateModelMixin):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
 
     #custom permission
     # def get_permissions(self):
