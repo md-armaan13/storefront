@@ -18,6 +18,7 @@ rq = "*"
 dramatiq = {extras = ["redis", "watch"], version = "*"}
 django-dramatiq = "*"
 model-bakery = "*"
+django-redis = "*"
 
 [dev-packages]
 pytest = "*"

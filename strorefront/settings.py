@@ -193,7 +193,7 @@ DEFAULT_FROM_EMAIL = 'admin@localhost'
 DRAMATIQ_BROKER = {
     "BROKER": "dramatiq.brokers.redis.RedisBroker",
     "OPTIONS": {
-        "url": "redis://localhost:6379",
+        "url": "redis://localhost:6379/1",
     },
     "MIDDLEWARE": [
         "dramatiq.middleware.AgeLimit",
@@ -203,4 +203,14 @@ DRAMATIQ_BROKER = {
         "django_dramatiq.middleware.AdminMiddleware",
         "django_dramatiq.middleware.DbConnectionsMiddleware",
     ]
+}
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/2",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
 }

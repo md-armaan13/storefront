@@ -98,6 +98,7 @@ class ProductList(ListCreateAPIView):
 
 
 #   USING APIVIEW FOR THE SAME THING
+  # class ProductView(APIView):
     # def get(self, request):
     #     queryset = Product.objects.select_related('collection').prefetch_related('collection__product_set').all().order_by('-last_update')
     #     serializer = ProductSerializer(queryset, many=True)

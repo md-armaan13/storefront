@@ -32,7 +32,9 @@ class InventoryFilter(admin.SimpleListFilter):
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
     actions = ['inventory_action']
+    # to display fields in admin panel
     list_display = ('title','price','inventory_status','collection_title','order_count')
+   # to make fields editable
     list_editable = ['price']
     list_per_page = 10
     list_select_related = ['collection']

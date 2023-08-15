@@ -2,7 +2,7 @@ from locust import HttpUser, TaskSet, task ,between
 from random import randint
 
 
-class WebsiteUser :
+class WebsiteUser(HttpUser):
     #`wait_time` between the execution of tasks
     #between(5, 15) means between 5 and 15 seconds
     wait_time = between(5, 15)
@@ -15,8 +15,8 @@ class WebsiteUser :
 
     @task(5)
     def view_products(self) :
-        collection_id = randint(1, 50)
-        self.client.get(f"/store/products/?collection_id={collection_id}/" , name = "/store/products/")
+        collection_id = randint(1, 10)
+        self.client.get(f"/store/products/?collection_id={collection_id}" , name = "/store/products/")
 
     @task(7)
     def view_product_detail(self) :

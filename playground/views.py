@@ -1,7 +1,7 @@
 from django.shortcuts import render
-
+import requests
 #import htttprespone
-from django.http import HttpResponse
+from django.http import HttpResponse 
 from store.models import Product , OrderItem ,Order ,Customer ,Collection ,Promotion
 # Create your views here.
 # import q from django
@@ -18,6 +18,12 @@ from django.db import transaction
 from django.core.mail import send_mail,mail_admins,BadHeaderError
 from templated_mail.mail import BaseEmailMessage
 from .tasks import print_numbers ,print_task
+
+from django.core.cache import cache
+from rest_framework.views import APIView
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
+
 
 def say_hello(request):
    
@@ -115,8 +121,34 @@ def send_email(request):
     # return HttpResponse('Email sent successfully')
     
     # print_task.send(5)
-    print_numbers.send(3)
+    # print_numbers.send(3)
+    # key = 'key01'
+
+    # if cache.get(key) is None:
+    #   response = requests.get('https://httpbin.org/delay/2')
+    #   data = response.json()
+    #   cache.set(key,data,10*60)
+    # return  HttpResponse(f'Email sent successfully{cache.get(key)}')
+    pass
+
+#ANOTHER METHOD CAHCHEING USING DECORATOR
+@cache_page(5*60)
+def send_email(request):
+   response = requests.get('https://httpbin.org/delay/9')
+   data = response.json()
+
+   return HttpResponse(f'Email sent{data}')
+
+#Another MEthod Class Based View
+
+class helloView(APIView) :
+   @method_decorator(cache_page(5*60))
+   def get(self ,request):
+    response = requests.get('https://httpbin.org/delay/2')
+    data = response.json()
+
+    return HttpResponse(f'Email sent{data}')
+
 
     
 
-    return  HttpResponse('Email sent successfully')
